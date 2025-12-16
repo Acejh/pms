@@ -2,33 +2,45 @@ import type { MainMenu } from '../types/menu';
 
 export const menuData: MainMenu[] = [
   {
-    id: 'basic-data',
-    label: '기초데이터',
+    id: 'measurement',
+    label: '계량정보',
     categories: [
       {
-        id: 'measurement',
-        label: '계량정보',
+        id: 'measurement-items',
+        label: '',
         items: [
-          { id: 'log', label: '수신로그', path: '/basic-data/measurement/log', roles: ['admin'] },
-          { id: 'pending', label: '확정대기', path: '/basic-data/measurement/pending' },
-          { id: 'confirmed', label: '확정완료', path: '/basic-data/measurement/confirmed' },
-          { id: 'general', label: '일반계량', path: '/basic-data/measurement/general' },
+          { id: 'log', label: '수신로그', path: '/measurement/log', roles: ['admin'] },
+          { id: 'pending', label: '확정대기', path: '/measurement/pending' },
+          { id: 'confirmed', label: '확정완료', path: '/measurement/confirmed' },
+          { id: 'general', label: '일반계량', path: '/measurement/general' },
         ]
-      },
+      }
+    ]
+  },
+  {
+    id: 'ecoas',
+    label: 'EcoAS관리표',
+    categories: [
       {
-        id: 'ecoas',
-        label: 'EcoAS관리표',
+        id: 'ecoas-items',
+        label: '',
         items: [
-          { id: 'collection', label: '수집/운반관리표', path: '/basic-data/ecoas/collection' },
-          { id: 'supply', label: '공급/폐기관리표', path: '/basic-data/ecoas/supply' },
+          { id: 'collection', label: '수집/운반관리표', path: '/ecoas/collection' },
+          { id: 'supply', label: '공급/폐기관리표', path: '/ecoas/supply' },
         ]
-      },
+      }
+    ]
+  },
+  {
+    id: 'tax-invoice',
+    label: '세금계산서',
+    categories: [
       {
-        id: 'tax-invoice',
-        label: '세금계산서',
+        id: 'tax-invoice-items',
+        label: '',
         items: [
-          { id: 'purchase', label: '매입 세금계산서 관리', path: '/basic-data/tax-invoice/purchase' },
-          { id: 'sales', label: '매출 세금계산서 관리', path: '/basic-data/tax-invoice/sales' },
+          { id: 'purchase', label: '매입 세금계산서 관리', path: '/tax-invoice/purchase' },
+          { id: 'sales', label: '매출 세금계산서 관리', path: '/tax-invoice/sales' },
         ]
       }
     ]
