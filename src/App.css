@@ -1,0 +1,16 @@
+.app {
+  min-height: 100vh;
+}
+
+.main-content {
+  padding-top: 80px;
+  padding-left: 24px;
+  padding-right: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.main-content h1 {
+  font-size: 1.8rem;
+  color: #1a1a2e;
+}
