@@ -22,26 +22,25 @@ export default function TopNav() {
     navigate('/login');
   };
 
-  // 권한 체크 함수
-  const hasAccess = (roles?: ('admin' | 'user')[]) => {
-    if (!roles) return true;
-    return roles.includes(user?.role as 'admin' | 'user');
-  };
-
   // 권한에 따른 메뉴 필터링 (메인메뉴, 카테고리, 아이템 모두)
   const accessibleMenuData = useMemo(() => {
     if (!user) return [];
 
+    const checkAccess = (roles?: ('admin' | 'user')[]) => {
+      if (!roles) return true;
+      return roles.includes(user.role as 'admin' | 'user');
+    };
+
     return menuData
-      .filter((menu) => hasAccess(menu.roles))
+      .filter((menu) => checkAccess(menu.roles))
       .map((menu) => {
         if (!menu.categories) return menu;
 
         const filteredCategories = menu.categories
-          .filter((category) => hasAccess(category.roles))
+          .filter((category) => checkAccess(category.roles))
           .map((category) => ({
             ...category,
-            items: category.items.filter((item) => hasAccess(item.roles))
+            items: category.items.filter((item) => checkAccess(item.roles))
           }))
           .filter((category) => category.items.length > 0);
 
@@ -53,6 +52,7 @@ export default function TopNav() {
   const activeMenuData = accessibleMenuData.find((menu) => menu.id === activeMenu);
 
   // 검색 결과 필터링 (권한 필터링된 메뉴 기준)
+  // 카테고리명과 메뉴항목명으로 검색, 타이틀(메인메뉴명)은 검색에서 제외
   const filteredMenuData = useMemo(() => {
     if (!searchQuery.trim()) return accessibleMenuData;
 
@@ -62,15 +62,23 @@ export default function TopNav() {
         if (!menu.categories) return null;
 
         const filteredCategories = menu.categories
-          .map((category) => ({
-            ...category,
-            items: category.items.filter((item) =>
-              item.label.toLowerCase().includes(query)
-            ),
-          }))
+          .map((category) => {
+            // 카테고리명이 검색어와 일치하면 해당 카테고리의 모든 항목 표시
+            const categoryMatches = category.label?.toLowerCase().includes(query);
+            if (categoryMatches) {
+              return category;
+            }
+            // 아니면 항목명으로 필터링
+            return {
+              ...category,
+              items: category.items.filter((item) =>
+                item.label.toLowerCase().includes(query)
+              ),
+            };
+          })
           .filter((category) => category.items.length > 0);
 
-        if (filteredCategories.length === 0 && !menu.label.toLowerCase().includes(query)) {
+        if (filteredCategories.length === 0) {
           return null;
         }
 
@@ -173,7 +181,6 @@ export default function TopNav() {
         )}
       </nav>
 
-      {/* 나라장터 스타일 전체 메뉴 */}
       {isFullMenuOpen && (
         <div className={`fullmenu-overlay ${isFullMenuClosing ? 'closing' : ''}`}>
           <div className="fullmenu-header">

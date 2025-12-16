@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:www.g2b.go.kr)",
-      "WebSearch"
+      "WebSearch",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }
